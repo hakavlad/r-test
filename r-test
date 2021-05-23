@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""
+r-test --path testdir1 --write 300
+
+r-test --path testdir1 --read 20000
+"""
+
+from argparse import ArgumentParser
+from os import fsync, getpid, kill, listdir, mkdir, path
+from random import choice, random
+from signal import SIGHUP, SIGINT, SIGQUIT, SIGTERM, SIGUSR1, signal
+from sys import exit
+from time import monotonic
+
+
+def mib_writer():
+    """
+    """
+    f_path = d_path + '/' + str(random())
+    with open(f_path, 'w') as f:
+        while True:
+            f.write('\n' * 100)
+            s = path.getsize(f_path)
+            if s >= MIB:
+                fsync(f.fileno())
+                print(
+                    'written file {}'.format(
+                        f_path, round(s / MIB, 1)))
+                return s
+
+
+def dir_writer():
+    """
+    """
+    try:
+        print('making directory {}'.format(d_path))
+        mkdir(d_path)
+    except Exception as e:
+        print(e)
+        exit(1)
+
+    summa = 0
+
+    while True:
+        print('total size: {} MiB'.format(round(summa / MIB, 1)))
+        if summa >= num * MIB:
+            print('OK')
+            exit()
+        s = mib_writer()
+        summa += s
+
+
+def dir_reader():
+    """
+    """
+    try:
+        d_list = listdir(d_path)
+    except Exception as e:
+        print(e)
+        exit(1)
+
+    ex_list = []
+    summa = 0
+
+    print('setting self oom_score_adj=1000')
+
+    with open('/proc/self/oom_score_adj', 'w') as f:
+        f.write('1000\n')
+
+    print('reading files from the directory {}'.format(d_path))
+
+    t0 = monotonic()
+
+    while True:
+        fname = choice(d_list)
+        f_path = d_path + '/' + fname
+
+        try:
+            with open(f_path, 'rb') as f:
+                x = f.read()
+        except Exception as e:
+            print(e)
+            exit(1)
+
+        ex_list.append(x)
+        s = path.getsize(f_path)
+        summa += s
+
+        t1 = monotonic()
+        t = t1 - t0
+
+        print(
+            'read {} MiB ({}%) in {}s; path: {}'.format(
+                round(summa / MIB, 1),
+                round(summa / MIB / no * 100, 1),
+                round(t, 1),
+                f_path))
+        if summa >= no * MIB:
+            break
+
+    t1 = monotonic()
+    t = t1 - t0
+    print('OK')
+    print('read {} MiB in {}s'.format(round(summa / MIB, 1), round(t, 1)))
+    kill(getpid(), SIGUSR1)
+
+
+def signal_handler(signum, frame):
+    """
+    """
+    def signal_handler_inner(signum, frame):
+        pass
+
+    for i in sig_list:
+        signal(i, signal_handler_inner)
+
+    print('Got signal', signum)
+    exit()
+
+
+parser = ArgumentParser()
+
+parser.add_argument(
+    '-p',
+    '--path',
+    help="path to the directory",
+    default='testdir1',
+    type=str
+)
+
+parser.add_argument(
+    '-r',
+    '--read',
+    help="how many mebibytes will be read from the files in the directory",
+    default='0',
+    type=float
+)
+
+parser.add_argument(
+    '-w',
+    '--write',
+    help="the number of mebibyte files to be written to the directory",
+    default='0',
+    type=float
+)
+
+args = parser.parse_args()
+d_path = args.path
+no = args.read
+num = args.write
+
+MIB = 1024**2
+
+sig_list = [SIGTERM, SIGINT, SIGQUIT, SIGHUP]
+
+for i in sig_list:
+    signal(i, signal_handler)
+
+if num > 0:
+    dir_writer()
+
+if no > 0:
+    dir_reader()
+
+print('invalid input')
+
+exit(1)
