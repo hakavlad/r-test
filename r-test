@@ -23,9 +23,7 @@ def mib_writer():
             s = path.getsize(f_path)
             if s >= MIB:
                 fsync(f.fileno())
-                print(
-                    'written file {}'.format(
-                        f_path, round(s / MIB, 1)))
+                print('written file {}'.format(f_path))
                 return s
 
 
