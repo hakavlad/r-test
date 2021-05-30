@@ -52,7 +52,8 @@ In this case, 20000 MiB files will be read in random order from the default dire
 
 Optionally, you can specify the path to the log file. 
 
-Output examples:
+## Output examples
+
 ```
 $ r-test -w 5
 mkdir testdir1
@@ -85,28 +86,23 @@ User defined signal 1
 
 Log file example:
 ```
-2021-05-30 15:34:20,932: setting self oom_score_adj=1000
-2021-05-30 15:34:20,933: reading files from the directory testdir1
-2021-05-30 15:34:20,969: read 1.0M (6.7%) in 0.0s; file 0.6762569307716757
-2021-05-30 15:34:21,082: read 2.0M (13.3%) in 0.1s; file 0.9019402503691984
-2021-05-30 15:34:21,323: read 3.0M (20.0%) in 0.4s; file 0.7066831728813696
-2021-05-30 15:34:21,325: read 4.0M (26.7%) in 0.4s; file 0.6762569307716757
-2021-05-30 15:34:21,326: read 5.0M (33.3%) in 0.4s; file 0.9019402503691984
-2021-05-30 15:34:21,547: read 6.0M (40.0%) in 0.6s; file 0.06466405586214241
-2021-05-30 15:34:21,549: read 7.0M (46.7%) in 0.6s; file 0.06466405586214241
-2021-05-30 15:34:21,911: read 8.0M (53.3%) in 1.0s; file 0.6948490864718008
-2021-05-30 15:34:21,912: read 9.0M (60.0%) in 1.0s; file 0.06466405586214241
-2021-05-30 15:34:21,914: read 10.0M (66.7%) in 1.0s; file 0.06466405586214241
-2021-05-30 15:34:21,915: read 11.0M (73.3%) in 1.0s; file 0.6948490864718008
-2021-05-30 15:34:21,916: read 12.0M (80.0%) in 1.0s; file 0.6948490864718008
-2021-05-30 15:34:21,918: read 13.0M (86.7%) in 1.0s; file 0.6762569307716757
-2021-05-30 15:34:21,919: read 14.0M (93.3%) in 1.0s; file 0.7066831728813696
-2021-05-30 15:34:21,920: read 15.0M (100.0%) in 1.0s; file 0.6948490864718008
-2021-05-30 15:34:21,921: read 15.0 MiB in 1.0s; avg: 15.2 MiB/sec
-2021-05-30 15:34:21,921: OK
+2021-05-30 16:56:56,307: mkdir testdir1
+2021-05-30 16:56:56,378: written testdir1/0.7380872541587621; total size: 1M
+2021-05-30 16:56:56,455: written testdir1/0.08128098820035623; total size: 2M
+2021-05-30 16:56:56,533: written testdir1/0.522197186101786; total size: 3M
+2021-05-30 16:56:56,611: written testdir1/0.38254948003417066; total size: 4M
+2021-05-30 16:56:56,688: written testdir1/0.9967369046101179; total size: 5M
+2021-05-30 16:56:56,688: OK
+2021-05-30 16:57:33,766: setting self oom_score_adj=1000
+2021-05-30 16:57:33,774: reading files from the directory testdir1
+2021-05-30 16:57:33,858: read 1.0M (20.0%) in 0.1s; file 0.7380872541587621
+2021-05-30 16:57:33,888: read 2.0M (40.0%) in 0.1s; file 0.9967369046101179
+2021-05-30 16:57:33,914: read 3.0M (60.0%) in 0.1s; file 0.38254948003417066
+2021-05-30 16:57:33,939: read 4.0M (80.0%) in 0.2s; file 0.522197186101786
+2021-05-30 16:57:33,940: read 5.0M (100.0%) in 0.2s; file 0.7380872541587621
+2021-05-30 16:57:33,940: read 5.0 MiB in 0.2s; avg: 30.3 MiB/sec
+2021-05-30 16:57:33,940: OK
 ```
-
-At the end, `r-test `shows the reading time and average speed. 
 
 ## Requirements
 
@@ -124,3 +120,9 @@ $ sudo make install
 ```sh
 $ sudo make uninstall
 ```
+
+See also
+
+These tools may be used to monitor memory and PSI metrics during stress tests:
+- [mem2log](https://github.com/hakavlad/mem2log) may be used to log memory metrics from `/proc/meminfo`;
+- [psi2log](https://github.com/hakavlad/nohang/blob/master/docs/psi2log.manpage.md) from [nohang](https://github.com/hakavlad/nohang) package may be used to log [PSI](https://facebookmicrosites.github.io/psi/docs/overview) metrics during tests.
