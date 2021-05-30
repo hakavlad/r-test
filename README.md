@@ -3,9 +3,13 @@
 
 Run I/O bound task under memory pressure.
 
-This is a Python script that can: 
+`r-test` is a Python script that can: 
 - create the specified number of mebibyte files in the specified directory;
-- read the specified volume of files from the directory in random order and add the resulting volume to the list in memory.
+- read the specified volume of files from the directory in random order and add the resulting volume to the list in memory;
+- show time and average reading speed;
+- log results in the specified file.
+
+The script can be used, for example, to assess the impact of virtual memory settings (`vm.swappiness`, `vm.watermark_scale_factor`, multigen LRU Framework etc) on the efficiency of file caching, especially under memory pressure. The script allows you to evaluate the performance of I/O operations under memory pressure.
 
 ## Usage
 
@@ -24,13 +28,23 @@ optional arguments:
   -l LOG, --log LOG     path to the log file
 ```
 
-Create a directory with the specified number of mebibyte files: 
+Create a directory with the specified number of mebibyte files. 
 ```
 r-test -w 300
 ```
-In this case, 300 mebibyte files will be created in the `testdir1` directory (this is the default name; you can specify a different directory with the `-p` option).
+In this case, 300 mebibyte files will be created in the `testdir1` directory (this is the default name; you can specify a different directory with the `-p` option). 
 
-Next, run the test. Read the files from the directory in random order:
+Drop caches and write dirty cache:
+```sh
+$ drop-caches
+#!/bin/sh -v
+sudo sync
+[sudo] password for user: 
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+3
+```
+
+Next, run the test. Be careful when choosing a reading volume: the system can reach OOM or freeze. One useful option is to read as much as needed to move a significant amount of memory to the swap space. Read the files from the directory in random order.
 ```
 r-test -r 20000
 ```
@@ -99,14 +113,14 @@ At the end, `r-test `shows the reading time and average speed.
 - Python 3.3+
 
 ## Install
-```
+```sh
 $ git clone https://github.com/hakavlad/r-test.git
 $ cd r-test
 $ sudo make install
 ```
+`r-test` and `drop-caches` scripts will be installed in `/usr/local/bin`.
 
 ## Uninstall
-```
+```sh
 $ sudo make uninstall
 ```
-
