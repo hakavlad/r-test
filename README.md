@@ -57,51 +57,55 @@ Optionally, you can specify the path to the log file.
 ```
 $ r-test -w 5
 mkdir testdir1
-written testdir1/0.9019402503691984; total size: 1M
-written testdir1/0.6948490864718008; total size: 2M
-written testdir1/0.7066831728813696; total size: 3M
-written testdir1/0.06466405586214241; total size: 4M
-written testdir1/0.6762569307716757; total size: 5M
+written testdir1/0.8413038645799809; total size: 1M
+written testdir1/0.5403515973223167; total size: 2M
+written testdir1/0.48694162517240913; total size: 3M
+written testdir1/0.336817161455191; total size: 4M
+written testdir1/0.18382311079398506; total size: 5M
 OK
 ```
 
 ```
 $ r-test -r 10
+found 5 regular files in testdir1, total size: 5.0M
 setting self oom_score_adj=1000
 reading files from the directory testdir1
-read 1.0M (10.0%) in 0.0s; file 0.06466405586214241
-read 2.0M (20.0%) in 0.1s; file 0.6948490864718008
-read 3.0M (30.0%) in 0.1s; file 0.6762569307716757
-read 4.0M (40.0%) in 0.1s; file 0.7066831728813696
-read 5.0M (50.0%) in 0.1s; file 0.7066831728813696
-read 6.0M (60.0%) in 0.1s; file 0.06466405586214241
-read 7.0M (70.0%) in 0.1s; file 0.9019402503691984
-read 8.0M (80.0%) in 0.1s; file 0.6948490864718008
-read 9.0M (90.0%) in 0.1s; file 0.6948490864718008
-read 10.0M (100.0%) in 0.1s; file 0.9019402503691984
-read 10.0 MiB in 0.1s; avg: 68.2 MiB/sec
+read 1.0M (10.0%) in 0.0s (avg 24.6M/s); file 0.336817161455191
+read 2.0M (20.0%) in 0.0s (avg 48.4M/s); file 0.336817161455191
+read 3.0M (30.0%) in 0.1s (avg 42.9M/s); file 0.8413038645799809
+read 4.0M (40.0%) in 0.1s (avg 41.2M/s); file 0.48694162517240913
+read 5.0M (50.0%) in 0.1s (avg 42.0M/s); file 0.18382311079398506
+read 6.0M (60.0%) in 0.1s (avg 40.1M/s); file 0.5403515973223167
+read 7.0M (70.0%) in 0.2s (avg 46.3M/s); file 0.18382311079398506
+read 8.0M (80.0%) in 0.2s (avg 52.7M/s); file 0.336817161455191
+read 9.0M (90.0%) in 0.2s (avg 59.0M/s); file 0.18382311079398506
+read 10.0M (100.0%) in 0.2s (avg 65.2M/s); file 0.8413038645799809
+--
+read 10.0M in 0.2s (avg 65.2M/s); src: 5 files, 5.0M
 OK
 User defined signal 1
 ```
 
 Log file example:
 ```
-2021-05-30 16:56:56,307: mkdir testdir1
-2021-05-30 16:56:56,378: written testdir1/0.7380872541587621; total size: 1M
-2021-05-30 16:56:56,455: written testdir1/0.08128098820035623; total size: 2M
-2021-05-30 16:56:56,533: written testdir1/0.522197186101786; total size: 3M
-2021-05-30 16:56:56,611: written testdir1/0.38254948003417066; total size: 4M
-2021-05-30 16:56:56,688: written testdir1/0.9967369046101179; total size: 5M
-2021-05-30 16:56:56,688: OK
-2021-05-30 16:57:33,766: setting self oom_score_adj=1000
-2021-05-30 16:57:33,774: reading files from the directory testdir1
-2021-05-30 16:57:33,858: read 1.0M (20.0%) in 0.1s; file 0.7380872541587621
-2021-05-30 16:57:33,888: read 2.0M (40.0%) in 0.1s; file 0.9967369046101179
-2021-05-30 16:57:33,914: read 3.0M (60.0%) in 0.1s; file 0.38254948003417066
-2021-05-30 16:57:33,939: read 4.0M (80.0%) in 0.2s; file 0.522197186101786
-2021-05-30 16:57:33,940: read 5.0M (100.0%) in 0.2s; file 0.7380872541587621
-2021-05-30 16:57:33,940: read 5.0 MiB in 0.2s; avg: 30.3 MiB/sec
-2021-05-30 16:57:33,940: OK
+2021-05-30 21:47:56,084: mkdir testdir1
+2021-05-30 21:47:56,211: written testdir1/0.9860985015646311; total size: 1M
+2021-05-30 21:47:56,289: written testdir1/0.0691916965192153; total size: 2M
+2021-05-30 21:47:56,377: written testdir1/0.27868153831296383; total size: 3M
+2021-05-30 21:47:56,455: written testdir1/0.7341114648416274; total size: 4M
+2021-05-30 21:47:56,533: written testdir1/0.5363495159203434; total size: 5M
+2021-05-30 21:47:56,533: OK
+2021-05-30 21:48:23,193: found 5 regular files in testdir1, total size: 5.0M
+2021-05-30 21:48:23,199: setting self oom_score_adj=1000
+2021-05-30 21:48:23,199: reading files from the directory testdir1
+2021-05-30 21:48:23,229: read 1.0M (20.0%) in 0.0s (avg 32.9M/s); file 0.7341114648416274
+2021-05-30 21:48:23,296: read 2.0M (40.0%) in 0.1s (avg 20.8M/s); file 0.0691916965192153
+2021-05-30 21:48:23,298: read 3.0M (60.0%) in 0.1s (avg 30.3M/s); file 0.0691916965192153
+2021-05-30 21:48:23,299: read 4.0M (80.0%) in 0.1s (avg 40.1M/s); file 0.7341114648416274
+2021-05-30 21:48:23,352: read 5.0M (100.0%) in 0.2s (avg 32.6M/s); file 0.27868153831296383
+2021-05-30 21:48:23,353: --
+2021-05-30 21:48:23,353: read 5.0M in 0.2s (avg 32.6M/s); src: 5 files, 5.0M
+2021-05-30 21:48:23,354: OK
 ```
 
 ## Requirements
@@ -134,3 +138,7 @@ Multigenerational LRU Framework at LKML:
 - https://lore.kernel.org/lkml/20210313075747.3781593-1-yuzhao@google.com/
 - https://lore.kernel.org/lkml/20210413065633.2782273-1-yuzhao@google.com/
 - https://lore.kernel.org/lkml/20210520065355.2736558-1-yuzhao@google.com/
+
+Daemons that can affect file reading performance:
+- [prelockd](https://github.com/hakavlad/prelockd): Lock executables and shared libraries in memory to improve system responsiveness under low-memory conditions;
+- [memavaild](https://github.com/hakavlad/memavaild): Keep amount of available memory by evicting memory of selected cgroups into swap space.
