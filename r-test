@@ -53,6 +53,22 @@ def dir_reader():
         log(e)
         exit(1)
 
+    d_size = 0
+    rf_num = 0
+
+    for f_name in d_list:
+        f_path = d_path + '/' + f_name
+        if path.isfile(f_path):
+            d_size += path.getsize(f_path)
+            rf_num += 1
+
+    log('found {} regular files in {}, total size: {}M'.format(
+        rf_num, d_path, round(d_size / MIB, 1)))
+
+    if d_size == 0:
+        log('size = 0, nothing to read')
+        exit(1)
+
     ex_list = []
     summa = 0
 
@@ -91,10 +107,12 @@ def dir_reader():
             break
 
     t = monotonic() - t0
-    log('read {} MiB in {}s; avg: {} MiB/sec'.format(
+    log('-- read {}M in {}s (avg {}M/s); src: {} files, {}M'.format(
         round(summa / MIB, 1),
         round(t, 1),
-        round(summa / MIB / t, 1)))
+        round(summa / MIB / t, 1),
+        rf_num,
+        round(d_size / MIB, 1)))
     log('OK')
     stdout.flush()
     kill(getpid(), SIGUSR1)
