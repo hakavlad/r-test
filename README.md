@@ -1,6 +1,8 @@
 
 # r-test
 
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/hakavlad/r-test.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/hakavlad/r-test/alerts/)
+
 Explore the impact of virtual memory settings on caching efficiency on Linux systems under memory pressure.
 
 `r-test` is a Python script that can: 
