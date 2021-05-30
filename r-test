@@ -93,21 +93,20 @@ def dir_reader():
             continue
 
         ex_list.append(content)
-        s = path.getsize(f_path)
-        summa += s
-
+        summa += path.getsize(f_path)
         t = monotonic() - t0
 
-        log('read {}M ({}%) in {}s; file {}'.format(
+        log('read {}M ({}%) in {}s (avg {}M/s); file {}'.format(
             round(summa / MIB, 1),
             round(summa / MIB / r_num * 100, 1),
             round(t, 1),
+            round(summa / MIB / t, 1),
             fname))
         if summa >= r_num * MIB:
             break
 
-    t = monotonic() - t0
-    log('-- read {}M in {}s (avg {}M/s); src: {} files, {}M'.format(
+    log('--')
+    log('read {}M in {}s (avg {}M/s); src: {} files, {}M'.format(
         round(summa / MIB, 1),
         round(t, 1),
         round(summa / MIB / t, 1),
