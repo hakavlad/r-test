@@ -1,7 +1,7 @@
 
 # r-test
 
-Run I/O bound task under memory pressure.
+Explore the impact of virtual memory settings on caching efficiency on Linux systems under memory pressure.
 
 `r-test` is a Python script that can: 
 - create the specified number of mebibyte files in the specified directory;
@@ -9,7 +9,7 @@ Run I/O bound task under memory pressure.
 - show time and average reading speed;
 - log results in the specified file.
 
-The script can be used, for example, to assess the impact of virtual memory settings (`vm.swappiness`, `vm.watermark_scale_factor`, multigen LRU Framework etc) on the efficiency of file caching, especially under memory pressure. The script allows you to evaluate the performance of I/O operations under memory pressure.
+The script can be used, for example, to assess the impact of virtual memory settings (`vm.swappiness`, `vm.watermark_scale_factor`, Multigenerational LRU Framework etc) on the efficiency of file caching, especially under memory pressure. The script allows you to evaluate the performance of I/O operations under memory pressure.
 
 ## Usage
 
@@ -121,8 +121,16 @@ $ sudo make install
 $ sudo make uninstall
 ```
 
-See also
+## See also
 
 These tools may be used to monitor memory and PSI metrics during stress tests:
 - [mem2log](https://github.com/hakavlad/mem2log) may be used to log memory metrics from `/proc/meminfo`;
 - [psi2log](https://github.com/hakavlad/nohang/blob/master/docs/psi2log.manpage.md) from [nohang](https://github.com/hakavlad/nohang) package may be used to log [PSI](https://facebookmicrosites.github.io/psi/docs/overview) metrics during tests.
+
+Documentation for `/proc/sys/vm/`:
+- https://www.kernel.org/doc/html/latest/admin-guide/sysctl/vm.html
+
+Multigenerational LRU Framework at LKML:
+- https://lore.kernel.org/lkml/20210313075747.3781593-1-yuzhao@google.com/
+- https://lore.kernel.org/lkml/20210413065633.2782273-1-yuzhao@google.com/
+- https://lore.kernel.org/lkml/20210520065355.2736558-1-yuzhao@google.com/
