@@ -31,12 +31,15 @@ def dir_writer():
         log(e)
         exit(1)
 
+    STRING_MIB = '\n' * MIB
+
     for i in range(w_num):
         f_path = d_path + '/' + str(random())
         with open(f_path, 'w') as f:
-            f.write('\n' * MIB)
+            f.write(STRING_MIB)
             fsync(f.fileno())
         log('written {}; total size: {}M'.format(f_path, i + 1))
+
     log('OK')
     exit()
 
